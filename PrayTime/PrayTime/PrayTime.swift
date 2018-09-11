@@ -44,7 +44,7 @@ class PrayTime {
     }
     
     // Time Names
-    var timeNames = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Sunset", "Maghrib", "Isha"]
+    var timeNames: NSArray = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Sunset", "Maghrib", "Isha"]
     
     var invalidTime: String? = "-----"   // The string used for invalid times
     
@@ -376,18 +376,19 @@ class PrayTime {
         let time = fixhour(a: time + 0.5 / 60.0) // add 0.5 minutes to round
         let hours = floor(time)
         let minutes = floor((time - hours) * 60.0)
+        let hrs = Int(hours)
         
-        if((hours >= 0 && hours <= 9) && (minutes >= 0 && minutes <= 9)) {
-            result = String(format: "0%d:0%.0f", hours, minutes)
+        if((hrs >= 0 && hrs <= 9) && (minutes >= 0 && minutes <= 9)) {
+            result = String(format: "0%d:0%.0f", hrs, minutes)
         }
-        else if((hours >= 0 && hours <= 9)) {
-            result = String(format:"0%d:%.0f", hours, minutes)
+        else if((hrs >= 0 && hrs <= 9)) {
+            result = String(format:"0%d:%.0f", hrs, minutes)
         }
         else if((minutes >= 0 && minutes <= 9)) {
-            result = String(format:"%d:0%.0f", hours, minutes)
+            result = String(format:"%d:0%.0f", hrs, minutes)
         }
         else {
-            result = String(format:"%d:%.0f", hours, minutes)
+            result = String(format:"%d:%.0f", hrs, minutes)
         }
         return result!
     }
@@ -403,7 +404,7 @@ class PrayTime {
         
         suffix = (hours >= 12 ? "pm" : "am")
         hours = (hours + 12) - 1
-        var hrs = hours.truncatingRemainder(dividingBy: 12)
+        var hrs = Int(hours.truncatingRemainder(dividingBy: 12))
         hrs += 1
         if(noSuffix == false) {
             if((hrs >= 0 && hrs <= 9) && (minutes >= 0 && minutes <= 9)) {
